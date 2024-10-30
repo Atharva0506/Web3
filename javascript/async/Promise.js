@@ -10,7 +10,7 @@ const fs = require("fs");
 // let ms = 5000
 // setTimeoutPromisified(ms).then(callback)
 
-// promise is supposed to return somthing
+// promise is supposed to return something
 
 // function random(res){
 //     setTimeout(res,3000)

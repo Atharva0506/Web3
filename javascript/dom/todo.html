@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-slate-900 h-screen flex justify-center items-center">
+    <div class="bg-slate-700 h-min px-6 py-6 rounded-2xl shadow-lg max-w-lg">
+      <h1 class="text-slate-300 font-bold text-3xl text-center my-4">
+        TO-DO Application
+      </h1>
+      <div class="flex justify-center mb-6">
+        <input
+          type="text"
+          class="rounded-lg border-none px-4 py-2 text-slate-900"
+          placeholder="Enter Todo"
+        />
+        <button
+          onclick="addTodo()"
+          class="bg-teal-500 ml-2 rounded-lg px-4 py-2 text-white hover:bg-teal-400 transition"
+        >
+          Add TODO
+        </button>
+      </div>
+      <div
+        id="todos"
+        class="flex flex-col gap-4 justify-center items-center p-4 rounded-lg shadow-md max-w-full mx-auto my-6"
+      ></div>
+    </div>
+    <script>
+      let todos = [];
+      let id = 1;
+
+      function addTodo() {
+        const input = document.querySelector("input");
+        if (input.value.trim() !== "") {
+          todos.push({ _id: id, title: input.value });
+          id++;
+          input.value = "";
+          render();
+        }
+      }
+
+      function deleteTodo(todoID) {
+        todos = todos.filter((todo) => todo._id !== todoID);
+        render();
+      }
+
+      function editTodo(todoID) {
+        const todoIndex = todos.findIndex((todo) => todo._id === todoID);
+        if (todoIndex === -1) return;
+
+        const div = document.querySelector("#todos");
+        const todoItem = div.children[todoIndex];
+
+        const h1 = todoItem.querySelector("h1");
+        const editButton = todoItem.querySelector(".edit-btn");
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = todos[todoIndex].title;
+        input.classList.add(
+          "rounded-lg",
+          "px-2",
+          "py-1",
+          "text-slate-900",
+          "w-full"
+        );
+
+        input.onblur = () => saveEdit(todoID, input.value);
+        input.onkeydown = (e) => {
+          if (e.key === "Enter") {
+            saveEdit(todoID, input.value);
+          }
+        };
+
+        todoItem.replaceChild(input, h1);
+        input.focus();
+      }
+
+      function saveEdit(todoID, newTitle) {
+        const todoIndex = todos.findIndex((todo) => todo._id === todoID);
+        if (todoIndex === -1 || !newTitle.trim()) return;
+
+        todos[todoIndex].title = newTitle.trim();
+        render();
+      }
+
+      function editTodo(todoID) {
+        const todoIndex = todos.findIndex((todo) => todo._id === todoID);
+        if (todoIndex === -1) return;
+
+        const div = document.querySelector("#todos");
+        const todoItem = div.children[todoIndex];
+
+        const h1 = todoItem.querySelector("h1");
+        const editButton = todoItem.querySelector(".edit-btn");
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = todos[todoIndex].title;
+        input.classList.add(
+          "rounded-lg",
+          "px-2",
+          "py-1",
+          "text-slate-900",
+          "w-full"
+        );
+
+        input.onblur = () => saveEdit(todoID, input.value);
+        input.onkeydown = (e) => {
+          if (e.key === "Enter") {
+            saveEdit(todoID, input.value);
+          }
+        };
+
+        todoItem.replaceChild(input, h1);
+        input.focus();
+      }
+
+      function saveEdit(todoID, newTitle) {
+        const todoIndex = todos.findIndex((todo) => todo._id === todoID);
+        if (todoIndex === -1 || !newTitle.trim()) return;
+
+        todos[todoIndex].title = newTitle.trim();
+        render();
+      }
+
+      function render() {
+        const div = document.querySelector("#todos");
+        div.innerHTML = "";
+        todos.forEach((todo, index) => {
+          const todoItem = document.createElement("div");
+          const h1 = document.createElement("h1");
+          const del = document.createElement("button");
+          const edit = document.createElement("button");
+
+          h1.innerText = index + 1 + "] " + todo.title;
+          h1.ondblclick = () => editTodo(todo._id);
+
+          del.innerText = "Delete";
+          del.onclick = () => deleteTodo(todo._id);
+
+          edit.innerText = "Edit";
+          edit.classList.add("edit-btn");
+          edit.onclick = () => editTodo(todo._id);
+
+          todoItem.classList.add(
+            "flex",
+            "items-center",
+            "justify-between",
+            "w-full",
+            "p-4",
+            "rounded-md",
+            "shadow"
+          );
+          h1.classList.add("text-lg", "font-semibold", "text-slate-300");
+          del.classList.add(
+            "bg-red-500",
+            "text-white",
+            "py-1",
+            "px-3",
+            "rounded",
+            "hover:bg-red-600"
+          );
+          edit.classList.add(
+            "bg-blue-500",
+            "text-white",
+            "py-1",
+            "px-3",
+            "rounded",
+            "hover:bg-blue-600"
+          );
+
+          todoItem.appendChild(h1);
+          todoItem.appendChild(edit);
+          todoItem.appendChild(del);
+          div.appendChild(todoItem);
+        });
+      }
+    </script>
+  </body>
+</html>
