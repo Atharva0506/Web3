@@ -32,7 +32,7 @@ interface User {
   lastname: string;
   email: string;
   age: number;
-  addres?: {
+  address?: {
     city: string;
     country: string;
     pincode: number;
@@ -45,10 +45,11 @@ function isLegal2(user: User) {
 
 console.log(
   isLegal2({
-    firstname: "Lufyy",
-    lastname: "D",
-    email: "luffy@onepiece.com",
-    age: 20,
+    firstname:"Monkey",
+    lastname:"Luffy",
+    email:"onepiece@gmail.com",
+    age:30,
+
   })
 );
 
@@ -150,3 +151,40 @@ console.log(
     },
   ])
 );
+
+interface User4 {
+  name: string;
+  age: number;
+}
+
+function sumOfAges(users: User4[]) {
+  let sum = 0;
+  users.forEach((x) => (sum += x.age));
+  return sum;
+}
+
+console.log(
+  sumOfAges([
+    {
+      name: "luffy",
+      age: 20,
+    },
+    {
+      name: "zoro",
+      age: 21,
+    },
+    {
+      name: "nami",
+      age: 20,
+    },
+  ])
+);
+
+// Pick allows you to create a new type by selecting a set of properties (Keys) from an existing type (Type).
+type updatedUser = Pick<User, 'email' |'age' | 'address' | "firstname">
+
+function updateUSer(user:updatedUser){
+  // Here You Should Make DB call to upadte fields
+  console.log(`name: ${user.firstname} email:${user.email} age:${user.age}  city ${user.address?.city}`)
+} 
+
