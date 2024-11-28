@@ -33,7 +33,7 @@ interface User {
   email: string;
   age: number;
   address?: {
-    city: string;
+    h4: string;
     country: string;
     pincode: number;
   };
@@ -185,6 +185,42 @@ type updatedUser = Pick<User, 'email' |'age' | 'address' | "firstname">
 
 function updateUSer(user:updatedUser){
   // Here You Should Make DB call to upadte fields
-  console.log(`name: ${user.firstname} email:${user.email} age:${user.age}  city ${user.address?.city}`)
+  console.log(`name: ${user.firstname} email:${user.email} age:${user.age}  `)
 } 
 
+interface API_KEYS{
+  readonly openAI : "sjkfhkh2hwthf";
+  readonly mongodb: "wsgjewfvj@3q";
+  readonly DOMAIN : "kugfigwifgi"
+}
+
+
+type Users = Record<string,{name:string,age:number}>
+
+let user1:Users = {
+  "_1":{
+    name:"luffy",
+    age:21
+  }
+}
+
+console.log(user1["_1"].name + " " + user1["_1"].age)
+
+
+let players = new Map<string,number>()
+
+players.set('rohit',45)
+players.set('virat',18)
+
+console.log(players.has('Yashasvi'))
+console.log(players.get('rohit'))
+
+
+type EventType = 'scroll' | 'click' | 'mouseover'
+type EventExclude = Exclude<EventType , 'mouseover'>
+
+function getEvent(e : EventExclude){
+  console.log(e)
+}
+
+getEvent('click')
