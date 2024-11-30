@@ -11,6 +11,7 @@ const client = new Client({
 
 async function main() {
   client.connect();
+  await client.query("INSERT INTO users(username,email,password) VALUES ('nami','nami@onepiece.com','nami')");
   let data = await client.query("SELECT * FROM users;");
   console.log(data.rows)
 }
