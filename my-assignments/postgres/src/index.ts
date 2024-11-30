@@ -1,5 +1,9 @@
 import { Client } from "pg";
+import express from "express";
 
+const app = express();
+
+app.use(express.json());
 const client = new Client({
   host: "localhost",
   port: 5432,
@@ -9,11 +13,25 @@ const client = new Client({
   ssl: false,
 });
 
-async function main() {
-  client.connect();
-  await client.query("INSERT INTO users(username,email,password) VALUES ('nami','nami@onepiece.com','nami')");
-  let data = await client.query("SELECT * FROM users;");
-  console.log(data.rows)
-}
+app.post("/insert-data", async (req, res) => {
+  try {
+    const email = req.body.email;
+    const username = req.body.username;
+    const password = req.body.password;
+    client.connect();
+    await client.query(
+      `INSERT INTO users(username,email,password) VALUES ('${username}','${email}','${password}')`
+    );
+   res.send({
+    "message":"user signed-up/created"
+   })
+  } catch (error) {
+    res.send({
+        "message":"Error While sign-up"
+    })
+  }
+});
 
-main()
+app.listen(3000, () => {
+  console.log("APp running 3000");
+});
