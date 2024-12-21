@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
 
-const Blog = () => {
-  return (
-    <div>Blog</div>
-  )
-}
+const Blog = async ({ params }: any) => {
+  const id = params.id;
+  const data =  fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
+    .then((response) => response.json())
 
-export default Blog
+const blog = await data
+  return <div>{
+    JSON.stringify(blog)
+    }</div>;
+};
+
+export default Blog;
