@@ -34,4 +34,10 @@ fn bool() {
 fn str() {
     let greeting = String::from("hello world");
     println!("{}", greeting);
+
+    // make mutable variable
+
+    let mut greet = String::from("Hiiii");
+    greet.push_str(" luffy");
+    println!("{}", greet);
 }
