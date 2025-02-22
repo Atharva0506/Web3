@@ -1,8 +1,13 @@
-use chrono::prelude::*;
-
+use chrono::prelude::{Utc,Local};
+use dotenv::dotenv;
+use std::env;
 
 fn main() {
-    let utc: DateTime<Utc> = Utc::now(); 
+    let utc = Utc::now(); 
+    let local = Local::now(); 
+    println!("{}",local);
     println!("{}",utc);
-
+    dotenv().ok();
+    let var = env::var("REDIS_ADDRESS").unwrap();
+    println!("{}", var);
 }
