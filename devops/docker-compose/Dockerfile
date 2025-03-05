@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -9,8 +9,11 @@ RUN pnpm install
 
 COPY . .
 
+ENV DATABASE_URL=postgresql://postgres:root@localhost:5432/postgres
 
+RUN npx prisma migrate dev
+RUN npx prisma generate
 RUN pnpm run build
 EXPOSE 3000
 
-CMD [ "node", "./dist/index.js" ]
+CMD [ "pnpm", "start" ]
