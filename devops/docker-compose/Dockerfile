@@ -1,19 +1,24 @@
+# Use Node.js 20 Alpine image
 FROM node:20-alpine
+
 
 WORKDIR /app
 
-RUN npm install -g pnpm
-RUN npm install -g typescript
+RUN npm i pnpm -g
+RUN npm i typescript -g
+
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-ENV DATABASE_URL=postgresql://postgres:root@localhost:5432/postgres
 
-RUN npx prisma migrate dev
 RUN npx prisma generate
+
+
 RUN pnpm run build
+
+
 EXPOSE 3000
 
-CMD [ "pnpm", "start" ]
+CMD ["pnpm", "run", "dev:docker"]
